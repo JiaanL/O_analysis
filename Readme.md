@@ -33,3 +33,9 @@ go run main.go
 3. data_vertical_analysis.ipynb: do the on- off-chain aggregation comparision
 4. mempool_data_processing.ipynb: clean the raw data from mempool
 5. latency_source_analysis: use mempool data to perfrom casual analysis on mining time and also the MEV liquidation call ratio analysis
+
+## Reference beyond the packages above:
+
+we use the code of https://github.com/huahuayu/go-transaction-decoder in pkg/decode_by_abi/decode_by_abi.go
+
+we use the code of https://stackoverflow.com/questions/24999079/reading-csv-file-in-go in pkg/csv_writer/csv_writer.go
