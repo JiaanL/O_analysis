@@ -18,7 +18,7 @@ import (
 
 func Get_log_source_data_main() {
 	wg := &sync.WaitGroup{}
-	target_contract := "MakerDAO_ETH_USD_Median"
+	target_contract := "ChainLink"
 	blcokFrom := big.NewInt(14577748)
 	blockTo := big.NewInt(14839909)
 	blockMax := uint64(14839909)
@@ -78,7 +78,7 @@ func get_log_source_data_loop(target_contract string, blcokFrom *big.Int, blockT
 		contract_address = "0x37bC7498f4FF12C19678ee8fE19d713b87F6a9e6"
 		log_csv = "chainlink_eth_usd_gas_info_" + blcokFrom.String() + "_" + blockTo.String() + ".csv"
 		log_headers = []string{
-			"blockNum", "index", "txHash", "gas", "gasPrice", "gasTipCap", "gasFeeCap",
+			"blockNum", "index", "txHash", "gas", "gasPrice", "gasTipCap", "gasFeeCap", "blockBaseFee",
 		}
 		topic0_target = "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f"
 	}
@@ -87,7 +87,7 @@ func get_log_source_data_loop(target_contract string, blcokFrom *big.Int, blockT
 		contract_address = "0x64DE91F5A373Cd4c28de3600cB34C7C6cE410C85"
 		log_csv = "maker_dao_eth_usd_median_gas_info_" + blcokFrom.String() + "_" + blockTo.String() + ".csv"
 		log_headers = []string{
-			"blockNum", "index", "txHash", "gas", "gasPrice", "gasTipCap", "gasFeeCap",
+			"blockNum", "index", "txHash", "gas", "gasPrice", "gasTipCap", "gasFeeCap", "blockBaseFee",
 		}
 		topic0_target = "0xb78ebc573f1f889ca9e1e0fb62c843c836f3d3a2e1f43ef62940e9b894f4ea4c"
 	}
@@ -96,7 +96,7 @@ func get_log_source_data_loop(target_contract string, blcokFrom *big.Int, blockT
 		contract_address = "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9"
 		log_csv = "aave_liquidationcall_gas_info_" + blcokFrom.String() + "_" + blockTo.String() + ".csv"
 		log_headers = []string{
-			"blockNum", "index", "txHash", "gas", "gasPrice", "gasTipCap", "gasFeeCap",
+			"blockNum", "index", "txHash", "gas", "gasPrice", "gasTipCap", "gasFeeCap", "blockBaseFee",
 		}
 		topic0_target = "0xe413a321e8681d831f4dbccbca790d2952b56f977908e45be37335533e005286"
 	}
@@ -171,6 +171,12 @@ func get_log_source_data_loop(target_contract string, blcokFrom *big.Int, blockT
 			topics[4] = tx.GasPrice().String()
 			topics[5] = tx.GasTipCap().String()
 			topics[6] = tx.GasFeeCap().String()
+
+			header, err := client.HeaderByNumber(context.Background(), big.NewInt(int64(vLog.BlockNumber)))
+			if err != nil {
+				log.Fatal(err)
+			}
+			topics[7] = header.BaseFee.String()
 
 			log_writer.Write(topics[:])
 		}

@@ -1,7 +1,8 @@
 package decode_by_abi
 
+// Author: huahuayu
 // reference : https://github.com/huahuayu/go-transaction-decoder
-
+// With some modifications
 import (
 	"encoding/hex"
 	"fmt"
@@ -52,6 +53,7 @@ func DecodeLogEvent(logs []*types.Log, router string) {
 
 func DecodeInputByStrHash(txInput string, router string) (funcName string, inputMap map[string]interface{}) {
 	// reference : https://github.com/huahuayu/go-transaction-decoder
+	// Author: huahuayu
 
 	// load contract ABI
 	abi, err := abi.JSON(strings.NewReader(router))

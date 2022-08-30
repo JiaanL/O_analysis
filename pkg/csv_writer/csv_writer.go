@@ -16,6 +16,7 @@ func Get_writer(save_file_path string, csv_file_name string, headers []string) (
 }
 
 func ReadCsvFile(filePath string) [][]string {
+	// Author: SyntaxRules
 	// reference : https://stackoverflow.com/questions/24999079/reading-csv-file-in-go
 	f, err := os.Open(filePath)
 	if err != nil {
